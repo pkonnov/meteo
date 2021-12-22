@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  meteo:
+    build: ./
+    environment:
+      METEO_APP_HOST: 0.0.0.0
+      METEO_APP_PORT: 8000
+      METEO_APP_PORT_REDIS_HOST: redis
+      OPEN_WEATHER_APY_KEY: secret
+    depends_on:
+      - redis
+    networks:
+      meteo_net:
+        aliases:
+          - meteo
+
+  redis:
+    image: redis:latest
+    networks:
+      meteo_net:
+        aliases:
+          - redis
+
+networks:
+  meteo_net:
+    driver: bridge
